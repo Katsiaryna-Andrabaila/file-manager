@@ -1,4 +1,6 @@
 import { homedir } from "os";
+import { getList } from "./getList.js";
+import { state } from "./state.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -16,9 +18,15 @@ const start = async () => {
   stdin.pipe(stdout);
 
   stdout.write(`Welcome to the File Manager, ${name || "Dear Checker"}!\n`);
-  stdout.write(`You are currently in ${homedir()}\n\n`);
 
-  stdin.on("data", (data) => {
+  const homeDir = homedir();
+  state.currentDir = homeDir;
+  stdout.write(`You are currently in ${homeDir}\n\n`);
+
+  stdin.on("data", async (data) => {
+    if (data.toString().trim() === "ls") {
+      await getList();
+    }
     if (data.toString().trim() === ".exit") {
       stdout.write(byePhrase);
       process.exit();
