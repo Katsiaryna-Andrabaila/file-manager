@@ -1,6 +1,7 @@
 import { homedir } from "os";
-import { getList } from "./getList.js";
-import { state } from "./state.js";
+import { getList } from "./scripts/getList.js";
+import { state } from "./state/state.js";
+import { goUp } from "./scripts/goUp.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -27,6 +28,12 @@ const start = async () => {
     switch (data.toString().trim()) {
       case "ls":
         await getList();
+        break;
+      case "up":
+        await goUp();
+        break;
+      case "..":
+        await goUp();
         break;
       case ".exit":
         stdout.write(byePhrase);

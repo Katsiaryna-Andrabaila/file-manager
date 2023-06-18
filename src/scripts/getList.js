@@ -1,5 +1,5 @@
 import { readdir } from "fs/promises";
-import { state } from "./state.js";
+import { state } from "../state/state.js";
 
 export const getList = async () => {
   try {
