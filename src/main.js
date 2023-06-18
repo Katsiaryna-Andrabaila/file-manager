@@ -24,12 +24,13 @@ const start = async () => {
   stdout.write(`You are currently in ${homeDir}\n\n`);
 
   stdin.on("data", async (data) => {
-    if (data.toString().trim() === "ls") {
-      await getList();
-    }
-    if (data.toString().trim() === ".exit") {
-      stdout.write(byePhrase);
-      process.exit();
+    switch (data.toString().trim()) {
+      case "ls":
+        await getList();
+        break;
+      case ".exit":
+        stdout.write(byePhrase);
+        process.exit();
     }
   });
 
