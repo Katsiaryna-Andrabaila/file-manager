@@ -3,6 +3,7 @@ import { getList } from "./scripts/getList.js";
 import { state } from "./state/state.js";
 import { goUp } from "./scripts/goUp.js";
 import { getOs } from "./scripts/getOs.js";
+import { goToDir } from "./scripts/goToDir.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -13,7 +14,7 @@ const start = async () => {
     name = args.slice(2)[0].split("=")[1];
   }
 
-  const byePhrase = `Thank you for using File Manager, ${
+  const byePhrase = `\nThank you for using File Manager, ${
     name || "Dear Checker"
   }, goodbye!`;
 
@@ -27,7 +28,7 @@ const start = async () => {
 
   stdin.on("data", async (data) => {
     const operation = data.toString().split(" ")[0].trim();
-    const detail = data.toString().split(" ")[1];
+    const details = data.toString().split(" ");
 
     switch (operation) {
       case "ls":
@@ -40,7 +41,10 @@ const start = async () => {
         await goUp();
         break;
       case "os":
-        await getOs(detail.slice(2).trim());
+        await getOs(details[1].slice(2).trim());
+        break;
+      case "cd":
+        await goToDir(details[1].trim());
         break;
       case ".exit":
         stdout.write(byePhrase);
