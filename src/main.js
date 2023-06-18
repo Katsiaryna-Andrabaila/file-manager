@@ -2,6 +2,7 @@ import { homedir } from "os";
 import { getList } from "./scripts/getList.js";
 import { state } from "./state/state.js";
 import { goUp } from "./scripts/goUp.js";
+import { getOs } from "./scripts/getOs.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -25,7 +26,10 @@ const start = async () => {
   stdout.write(`You are currently in ${homeDir}\n\n`);
 
   stdin.on("data", async (data) => {
-    switch (data.toString().trim()) {
+    const operation = data.toString().split(" ")[0].trim();
+    const detail = data.toString().split(" ")[1];
+
+    switch (operation) {
       case "ls":
         await getList();
         break;
@@ -34,6 +38,9 @@ const start = async () => {
         break;
       case "..":
         await goUp();
+        break;
+      case "os":
+        await getOs(detail.slice(2).trim());
         break;
       case ".exit":
         stdout.write(byePhrase);
