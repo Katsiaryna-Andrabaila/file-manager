@@ -10,15 +10,20 @@ export const goToDir = async (targetPath) => {
   access(join(dir, targetPath), constants.F_OK, (error) => {
     if (error) {
       access(targetPath, constants.F_OK, (e) => {
-        if (e) console.error("Operation failed\n");
-        chdir(targetPath);
-        state.currentDir = targetPath;
-        stdout.write(`You are currently in ${state.currentDir}\n\n`);
+        e ? cb(targetPath, true) : cb(targetPath, false);
       });
-      return;
+    } else {
+      cb(join(dir, targetPath), false);
     }
-    chdir(join(dir, targetPath));
-    state.currentDir = join(dir, targetPath);
-    stdout.write(`You are currently in ${state.currentDir}\n\n`);
   });
+
+  const cb = (filePath, isError) => {
+    if (!isError) {
+      chdir(filePath);
+      state.currentDir = filePath;
+    } else {
+      console.error("Operation failed\n");
+    }
+    stdout.write(`You are currently in ${state.currentDir}\n\n`);
+  };
 };
