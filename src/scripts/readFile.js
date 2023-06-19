@@ -9,14 +9,18 @@ export const readFile = async (pathToFile) => {
 
   read(join(dir, pathToFile), "utf8", (error, data) => {
     if (error) {
-      read(pathToFile, "utf8", (e, data) => {
-        if (e) console.error("Operation failed\n");
-        console.log("\n" + data + "\n");
-        stdout.write(`You are currently in ${state.currentDir}\n\n`);
-      });
+      read(pathToFile, "utf8", (e, data) =>
+        e ? cb(data, true) : cb(data, false)
+      );
     } else {
-      console.log("\n" + data + "\n");
+      cb(data, false);
     }
-    stdout.write(`You are currently in ${state.currentDir}\n\n`);
   });
+
+  const cb = (output, isError) => {
+    isError
+      ? console.error("Operation failed\n")
+      : console.log("\n" + output + "\n");
+    stdout.write(`You are currently in ${state.currentDir}\n\n`);
+  };
 };
