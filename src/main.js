@@ -5,6 +5,7 @@ import { goUp } from "./scripts/goUp.js";
 import { getOs } from "./scripts/getOs.js";
 import { goToDir } from "./scripts/goToDir.js";
 import { readFile } from "./scripts/readFile.js";
+import { addFile } from "./scripts/addFile.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -49,6 +50,9 @@ const start = async () => {
         break;
       case "cat":
         await readFile(details[1].trim());
+        break;
+      case "add":
+        await addFile(details[1].trim());
         break;
       case ".exit":
         stdout.write(byePhrase);
