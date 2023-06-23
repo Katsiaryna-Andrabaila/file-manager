@@ -10,13 +10,21 @@ export const getList = async () => {
 
     const files = await readdir(dir, { withFileTypes: true });
     for (const file of files) {
-      array.push({
-        Name: file.name,
-        Type: file.isFile() ? "file" : "directory",
-      });
+      if (file.isFile()) {
+        array.push({
+          Name: file.name,
+          Type: "file",
+        });
+      }
+      if (file.isDirectory()) {
+        array.push({
+          Name: file.name,
+          Type: "directory",
+        });
+      }
     }
 
-    console.table(array.sort((a, b) => (a.Type > b.Type ? 1 : -1)));
+    console.table(array.sort((a, b) => a.Type.localeCompare(b.Type)));
     stdout.write(`You are currently in ${state.currentDir}\n\n`);
   } catch (e) {
     console.error(e);
