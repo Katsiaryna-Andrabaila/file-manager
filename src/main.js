@@ -20,8 +20,6 @@ const start = async () => {
     name || "Dear Checker"
   }, goodbye!`;
 
-  stdin.pipe(stdout);
-
   stdout.write(`Welcome to the File Manager, ${name || "Dear Checker"}!\n`);
 
   const homeDir = homedir();
