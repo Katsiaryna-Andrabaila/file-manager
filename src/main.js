@@ -6,6 +6,7 @@ import { getOs } from "./scripts/getOs.js";
 import { goToDir } from "./scripts/goToDir.js";
 import { readFile } from "./scripts/readFile.js";
 import { addFile } from "./scripts/addFile.js";
+import { rename } from "./scripts/rename.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -48,6 +49,9 @@ const start = async () => {
         break;
       case "add":
         await addFile(details[1].trim());
+        break;
+      case "rn":
+        await rename(details[1].trim(), details[2].trim());
         break;
       case ".exit":
         stdout.write(byePhrase);
