@@ -37,9 +37,6 @@ const start = async () => {
       case "up":
         await goUp();
         break;
-      case "..":
-        await goUp();
-        break;
       case "os":
         await getOs(details[1].slice(2).trim());
         break;
