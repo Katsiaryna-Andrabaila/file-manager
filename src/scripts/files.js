@@ -1,7 +1,7 @@
 import { state } from "../state/state.js";
-import { readFile as read } from "fs";
-import { join, resolve, dirname } from "path";
-import { rename as renameMethod } from "fs/promises";
+import { readFile as read, createReadStream, createWriteStream } from "fs";
+import { join, resolve, dirname, basename } from "path";
+import { rename as renameMethod, access } from "fs/promises";
 import { open } from "fs/promises";
 
 const { stdout } = process;
@@ -48,7 +48,27 @@ export const rename = async (pathToFile, newName) => {
     const path = resolve(dir, pathToFile);
     const newPath = join(dirname(path), newName);
     await renameMethod(path, newPath);
-  } catch (e) {
+  } catch {
+    console.error("Operation failed\n");
+  } finally {
+    stdout.write(`You are currently in ${dir}\n\n`);
+  }
+};
+
+export const copy = async (pathToFile, newPath) => {
+  const dir = state.currentDir;
+
+  try {
+    const path = resolve(dir, pathToFile);
+    const newAbsPath = resolve(dir, join(newPath.trim(), basename(path)));
+
+    await access(path);
+    await access(newAbsPath);
+
+    const readable = createReadStream(path);
+    const writable = createWriteStream(newAbsPath);
+    readable.pipe(writable);
+  } catch {
     console.error("Operation failed\n");
   } finally {
     stdout.write(`You are currently in ${dir}\n\n`);
