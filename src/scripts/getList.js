@@ -1,5 +1,6 @@
 import { readdir } from "fs/promises";
 import { state } from "../state/state.js";
+import { ERRORS, COLORS } from "../constants/constants.js";
 
 const { stdout } = process;
 
@@ -27,6 +28,6 @@ export const getList = async () => {
     console.table(array.sort((a, b) => a.Type.localeCompare(b.Type)));
     stdout.write(`You are currently in ${state.currentDir}\n\n> `);
   } catch {
-    console.error("Operation failed\n");
+    console.error(COLORS.red, ERRORS.operation);
   }
 };

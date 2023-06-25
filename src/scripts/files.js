@@ -8,6 +8,7 @@ import {
   unlink,
   open,
 } from "fs/promises";
+import { COLORS, ERRORS } from "../constants/constants.js";
 
 const { stdout } = process;
 
@@ -17,23 +18,23 @@ export const read = async (pathToFile) => {
   try {
     const path = resolve(dir, pathToFile);
     const content = await readFile(path, { encoding: "utf8" });
-    console.log(`\n${content}\n`);
+    console.log(COLORS.green, `\n${content}\n`);
   } catch {
-    console.error("Operation failed\n");
+    console.error(COLORS.red, !pathToFile ? ERRORS.input : ERRORS.operation);
   } finally {
     stdout.write(`You are currently in ${dir}\n\n> `);
   }
 };
 
-export const addFile = async (fileName) => {
+export const add = async (fileName) => {
   const dir = state.currentDir;
   let fileHandle;
 
   try {
     fileHandle = await open(join(dir, fileName), "wx");
-    stdout.write(`File was successfully added\n\n`);
+    console.log(COLORS.green, `File was successfully added\n`);
   } catch {
-    console.error("Operation failed");
+    console.error(COLORS.red, !fileName ? ERRORS.input : ERRORS.operation);
   } finally {
     fileHandle.close();
     stdout.write(`You are currently in ${state.currentDir}\n\n> `);
@@ -47,9 +48,12 @@ export const rename = async (pathToFile, newName) => {
     const path = resolve(dir, pathToFile);
     const newPath = join(dirname(path), newName);
     await renameMethod(path, newPath);
-    stdout.write(`File was successfully renamed\n\n`);
+    console.log(COLORS.green, `File was successfully renamed\n`);
   } catch {
-    console.error("Operation failed\n");
+    console.error(
+      COLORS.red,
+      !newName || !pathToFile ? ERRORS.input : ERRORS.operation
+    );
   } finally {
     stdout.write(`You are currently in ${dir}\n\n> `);
   }
@@ -70,13 +74,16 @@ export const copy = async (pathToFile, newPath, isCopy) => {
     readable.pipe(writable);
 
     if (isCopy) {
-      stdout.write(`File was successfully copied\n\n`);
+      console.log(COLORS.green, `File was successfully copied\n`);
     } else {
       await unlink(path);
-      stdout.write(`File was successfully moved\n\n`);
+      console.log(COLORS.green, `File was successfully moved\n`);
     }
   } catch {
-    console.error("Operation failed\n");
+    console.error(
+      COLORS.red,
+      !newPath || !pathToFile ? ERRORS.input : ERRORS.operation
+    );
   } finally {
     stdout.write(`You are currently in ${dir}\n\n> `);
   }
@@ -88,9 +95,9 @@ export const remove = async (pathToFile) => {
   try {
     const path = resolve(dir, pathToFile);
     await unlink(path);
-    stdout.write(`File was successfully deleted\n\n`);
+    console.log(COLORS.green, `File was successfully deleted\n`);
   } catch {
-    console.error("Operation failed\n");
+    console.error(COLORS.red, !pathToFile ? ERRORS.input : ERRORS.operation);
   } finally {
     stdout.write(`You are currently in ${dir}\n\n> `);
   }

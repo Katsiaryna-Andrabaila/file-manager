@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
 import { state } from "../state/state.js";
+import { COLORS, ERRORS } from "../constants/constants.js";
 
 const { stdout } = process;
 
@@ -12,9 +13,9 @@ export const getHash = async (pathToFile) => {
     const path = resolve(dir, pathToFile);
     const content = await readFile(path);
     const hash = createHash("sha256").update(content).digest("hex");
-    stdout.write(`${hash}\n\n`);
+    console.log(COLORS.green, `${hash}\n`);
   } catch {
-    console.error("Operation failed\n");
+    console.error(COLORS.red, !pathToFile ? ERRORS.input : ERRORS.operation);
   } finally {
     stdout.write(`You are currently in ${dir}\n\n> `);
   }

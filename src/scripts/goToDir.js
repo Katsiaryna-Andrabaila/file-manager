@@ -1,3 +1,4 @@
+import { ERRORS, COLORS } from "../constants/constants.js";
 import { state } from "../state/state.js";
 import { resolve } from "path";
 
@@ -11,7 +12,7 @@ export const goToDir = async (targetPath) => {
     chdir(path);
     state.currentDir = path;
   } catch {
-    console.error("Operation failed\n");
+    console.error(COLORS.red, !fileName ? ERRORS.input : ERRORS.operation);
   } finally {
     stdout.write(`You are currently in ${state.currentDir}\n\n> `);
   }

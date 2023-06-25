@@ -2,6 +2,7 @@ import { createBrotliCompress, createBrotliDecompress } from "zlib";
 import { resolve } from "path";
 import { createReadStream, createWriteStream } from "fs";
 import { state } from "../state/state.js";
+import { ERRORS, COLORS } from "../constants/constants.js";
 
 const { stdout } = process;
 
@@ -18,11 +19,12 @@ export const zlib = async (pathToFile, isCompress) => {
     );
 
     input.pipe(gzip).pipe(output);
-    stdout.write(
-      `File was successfully ${isCompress ? "compressed" : "decompressed"}\n\n`
+    console.log(
+      COLORS.green,
+      `File was successfully ${isCompress ? "compressed" : "decompressed"}\n`
     );
   } catch {
-    console.error("Operation failed\n");
+    console.error(COLORS.red, !fileName ? ERRORS.input : ERRORS.operation);
   } finally {
     stdout.write(`You are currently in ${dir}\n\n> `);
   }

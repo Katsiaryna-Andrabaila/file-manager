@@ -1,3 +1,4 @@
+import { ERRORS, COLORS } from "../constants/constants.js";
 import { state } from "../state/state.js";
 import os from "os";
 
@@ -6,22 +7,22 @@ const { stdout } = process;
 export const getOs = async (detail) => {
   switch (detail) {
     case "EOL":
-      console.log(JSON.stringify(os.EOL) + "\n");
+      console.log(COLORS.green, JSON.stringify(os.EOL) + "\n");
       break;
     case "cpus":
-      console.log(os.cpus());
+      console.log(COLORS.green, os.cpus());
       break;
     case "homedir":
-      console.log(os.homedir() + "\n");
+      console.log(COLORS.green, os.homedir() + "\n");
       break;
     case "username":
-      console.log(os.userInfo().username + "\n");
+      console.log(COLORS.green, os.userInfo().username + "\n");
       break;
     case "architecture":
-      console.log(os.arch + "\n");
+      console.log(COLORS.green, os.arch + "\n");
       break;
     default:
-      console.error("Operation failed\n");
+      console.error(COLORS.red, ERRORS.input);
   }
 
   stdout.write(`You are currently in ${state.currentDir}\n\n> `);
