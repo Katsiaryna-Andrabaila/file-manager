@@ -11,5 +11,5 @@ export const goUp = async () => {
 
   state.currentDir = targetDir;
 
-  stdout.write(`You are currently in ${state.currentDir}\n\n`);
+  stdout.write(`You are currently in ${state.currentDir}\n\n> `);
 };

@@ -24,6 +24,6 @@ export const goToDir = async (targetPath) => {
     } else {
       console.error("Operation failed\n");
     }
-    stdout.write(`You are currently in ${state.currentDir}\n\n`);
+    stdout.write(`You are currently in ${state.currentDir}\n\n> `);
   };
 };

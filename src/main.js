@@ -24,7 +24,7 @@ const start = async () => {
 
     const homeDir = homedir();
     state.currentDir = homeDir;
-    stdout.write(`You are currently in ${homeDir}\n\n`);
+    stdout.write(`You are currently in ${homeDir}\n\n> `);
 
     stdin.on("data", async (data) => {
       const operation = data.toString().split(" ")[0].trim();
