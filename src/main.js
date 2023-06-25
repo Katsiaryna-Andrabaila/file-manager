@@ -1,13 +1,14 @@
 import { homedir } from "os";
-import { getList } from "./scripts/getList.js";
+import { getList } from "./operations/getList.js";
 import { state } from "./state/state.js";
-import { goUp } from "./scripts/goUp.js";
-import { getOs } from "./scripts/getOs.js";
-import { goToDir } from "./scripts/goToDir.js";
-import { read, add, rename, copy, remove } from "./scripts/files.js";
-import { getHash } from "./scripts/getHash.js";
-import { zlib } from "./scripts/zlib.js";
+import { goUp } from "./operations/goUp.js";
+import { getOs } from "./operations/getOs.js";
+import { goToDir } from "./operations/goToDir.js";
+import { read, add, rename, copy, remove } from "./operations/files.js";
+import { getHash } from "./operations/getHash.js";
+import { zlib } from "./operations/zlib.js";
 import { COLORS, ERRORS } from "./constants/constants.js";
+import { getByePhrase } from "./utils/getByePhrase.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -17,10 +18,6 @@ const start = async () => {
   if (args.length > 2) {
     name = args.slice(2)[0].split("=")[1];
   }
-
-  const byePhrase = `\nThank you for using File Manager, ${
-    name || "Dear Checker"
-  }, goodbye!`;
 
   stdout.write(`Welcome to the File Manager, ${name || "Dear Checker"}!\n`);
 
@@ -76,7 +73,7 @@ const start = async () => {
         await zlib(details[1].trim(), false);
         break;
       case ".exit":
-        stdout.write(byePhrase);
+        stdout.write(getByePhrase(name));
         process.exit();
       default:
         console.error(COLORS.red, ERRORS.input);
@@ -85,7 +82,7 @@ const start = async () => {
   });
 
   process.on("SIGINT", () => {
-    stdout.write(byePhrase);
+    stdout.write(getByePhrase(name));
     process.exit();
   });
 };
