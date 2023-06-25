@@ -10,7 +10,7 @@ export const getHash = async (pathToFile) => {
   const dir = state.currentDir;
 
   try {
-    const path = resolve(dir, pathToFile);
+    const path = resolve(dir, pathToFile.trim());
     const content = await readFile(path);
     const hash = createHash("sha256").update(content).digest("hex");
     console.log(COLORS.green, `${hash}\n`);

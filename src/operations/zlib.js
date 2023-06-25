@@ -10,7 +10,7 @@ export const zlib = async (pathToFile, isCompress) => {
   const dir = state.currentDir;
 
   try {
-    const path = resolve(dir, pathToFile);
+    const path = resolve(dir, pathToFile.trim());
 
     const gzip = isCompress ? createBrotliCompress() : createBrotliDecompress();
     const input = createReadStream(path);
@@ -24,7 +24,7 @@ export const zlib = async (pathToFile, isCompress) => {
       `File was successfully ${isCompress ? "compressed" : "decompressed"}\n`
     );
   } catch {
-    console.error(COLORS.red, !fileName ? ERRORS.input : ERRORS.operation);
+    console.error(COLORS.red, !pathToFile ? ERRORS.input : ERRORS.operation);
   } finally {
     stdout.write(`You are currently in ${dir}\n\n> `);
   }

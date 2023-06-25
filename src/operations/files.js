@@ -16,7 +16,7 @@ export const read = async (pathToFile) => {
   const dir = state.currentDir;
 
   try {
-    const path = resolve(dir, pathToFile);
+    const path = resolve(dir, pathToFile.trim());
     const content = await readFile(path, { encoding: "utf8" });
     console.log(COLORS.green, `\n${content}\n`);
   } catch {
@@ -31,12 +31,12 @@ export const add = async (fileName) => {
   let fileHandle;
 
   try {
-    fileHandle = await open(join(dir, fileName), "wx");
+    fileHandle = await open(join(dir, fileName.trim()), "wx");
     console.log(COLORS.green, `File was successfully added\n`);
+    fileHandle.close();
   } catch {
     console.error(COLORS.red, !fileName ? ERRORS.input : ERRORS.operation);
   } finally {
-    fileHandle.close();
     stdout.write(`You are currently in ${state.currentDir}\n\n> `);
   }
 };
@@ -45,8 +45,8 @@ export const rename = async (pathToFile, newName) => {
   const dir = state.currentDir;
 
   try {
-    const path = resolve(dir, pathToFile);
-    const newPath = join(dirname(path), newName);
+    const path = resolve(dir, pathToFile.trim());
+    const newPath = join(dirname(path), newName.trim());
     await renameMethod(path, newPath);
     console.log(COLORS.green, `File was successfully renamed\n`);
   } catch {
@@ -63,7 +63,7 @@ export const copy = async (pathToFile, newPath, isCopy) => {
   const dir = state.currentDir;
 
   try {
-    const path = resolve(dir, pathToFile);
+    const path = resolve(dir, pathToFile.trim());
     const newAbsPath = resolve(dir, join(newPath.trim(), basename(path)));
 
     await access(path);
@@ -93,7 +93,7 @@ export const remove = async (pathToFile) => {
   const dir = state.currentDir;
 
   try {
-    const path = resolve(dir, pathToFile);
+    const path = resolve(dir, pathToFile.trim());
     await unlink(path);
     console.log(COLORS.green, `File was successfully deleted\n`);
   } catch {

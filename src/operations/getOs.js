@@ -5,24 +5,28 @@ import os from "os";
 const { stdout } = process;
 
 export const getOs = async (detail) => {
-  switch (detail) {
-    case "EOL":
-      console.log(COLORS.green, JSON.stringify(os.EOL) + "\n");
-      break;
-    case "cpus":
-      console.log(COLORS.green, os.cpus());
-      break;
-    case "homedir":
-      console.log(COLORS.green, os.homedir() + "\n");
-      break;
-    case "username":
-      console.log(COLORS.green, os.userInfo().username + "\n");
-      break;
-    case "architecture":
-      console.log(COLORS.green, os.arch + "\n");
-      break;
-    default:
-      console.error(COLORS.red, ERRORS.input);
+  if (!detail) {
+    console.error(COLORS.red, ERRORS.input);
+  } else {
+    switch (detail.slice(2).trim()) {
+      case "EOL":
+        console.log(COLORS.green, JSON.stringify(os.EOL) + "\n");
+        break;
+      case "cpus":
+        console.log(COLORS.green, os.cpus());
+        break;
+      case "homedir":
+        console.log(COLORS.green, os.homedir() + "\n");
+        break;
+      case "username":
+        console.log(COLORS.green, os.userInfo().username + "\n");
+        break;
+      case "architecture":
+        console.log(COLORS.green, os.arch + "\n");
+        break;
+      default:
+        console.error(COLORS.red, ERRORS.input);
+    }
   }
 
   stdout.write(`You are currently in ${state.currentDir}\n\n> `);

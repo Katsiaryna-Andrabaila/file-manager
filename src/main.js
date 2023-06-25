@@ -40,37 +40,37 @@ const start = async () => {
         await goUp();
         break;
       case "os":
-        await getOs(details[1].slice(2).trim());
+        await getOs(details[1]);
         break;
       case "cd":
-        await goToDir(details[1].trim());
+        await goToDir(details[1]);
         break;
       case "cat":
-        await read(details[1].trim());
+        await read(details[1]);
         break;
       case "add":
-        await add(details[1].trim());
+        await add(details[1]);
         break;
       case "rn":
-        await rename(details[1].trim(), details[2].trim());
+        await rename(details[1], details[2]);
         break;
       case "cp":
-        await copy(details[1].trim(), details[2], true);
+        await copy(details[1], details[2], true);
         break;
       case "mv":
-        await copy(details[1].trim(), details[2], false);
+        await copy(details[1], details[2], false);
         break;
       case "rm":
-        await remove(details[1].trim());
+        await remove(details[1]);
         break;
       case "hash":
-        await getHash(details[1].trim());
+        await getHash(details[1]);
         break;
       case "compress":
-        await zlib(details[1].trim(), true);
+        await zlib(details[1], true);
         break;
       case "decompress":
-        await zlib(details[1].trim(), false);
+        await zlib(details[1], false);
         break;
       case ".exit":
         stdout.write(getByePhrase(name));
