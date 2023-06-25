@@ -5,6 +5,7 @@ import { goUp } from "./scripts/goUp.js";
 import { getOs } from "./scripts/getOs.js";
 import { goToDir } from "./scripts/goToDir.js";
 import { readFile, addFile, rename, copy, remove } from "./scripts/files.js";
+import { getHash } from "./scripts/getHash.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -64,9 +65,15 @@ const start = async () => {
         case "rm":
           await remove(details[1].trim());
           break;
+        case "hash":
+          await getHash(details[1].trim());
+          break;
         case ".exit":
           stdout.write(byePhrase);
           process.exit();
+        default:
+          console.error("\nInvalid input\n");
+          stdout.write(`You are currently in ${state.currentDir}\n\n> `);
       }
     });
 
