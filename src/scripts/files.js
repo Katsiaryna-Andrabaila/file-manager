@@ -31,6 +31,7 @@ export const addFile = async (fileName) => {
 
   try {
     fileHandle = await open(join(dir, fileName), "wx");
+    stdout.write(`File was successfully added\n\n`);
   } catch {
     console.error("Operation failed");
   } finally {
@@ -46,6 +47,7 @@ export const rename = async (pathToFile, newName) => {
     const path = resolve(dir, pathToFile);
     const newPath = join(dirname(path), newName);
     await renameMethod(path, newPath);
+    stdout.write(`File was successfully renamed\n\n`);
   } catch {
     console.error("Operation failed\n");
   } finally {
@@ -61,11 +63,12 @@ export const copy = async (pathToFile, newPath) => {
     const newAbsPath = resolve(dir, join(newPath.trim(), basename(path)));
 
     await access(path);
-    await access(newAbsPath);
+    await access(resolve(dir, newPath.trim()));
 
     const readable = createReadStream(path);
     const writable = createWriteStream(newAbsPath);
     readable.pipe(writable);
+    stdout.write(`File was successfully copied\n\n`);
   } catch {
     console.error("Operation failed\n");
   } finally {
