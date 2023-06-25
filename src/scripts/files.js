@@ -1,8 +1,7 @@
 import { state } from "../state/state.js";
 import { readFile as read, createReadStream, createWriteStream } from "fs";
 import { join, resolve, dirname, basename } from "path";
-import { rename as renameMethod, access, unlink } from "fs/promises";
-import { open } from "fs/promises";
+import { rename as renameMethod, access, unlink, open } from "fs/promises";
 
 const { stdout } = process;
 
