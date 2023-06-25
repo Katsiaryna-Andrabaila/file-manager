@@ -4,7 +4,7 @@ import { state } from "./state/state.js";
 import { goUp } from "./scripts/goUp.js";
 import { getOs } from "./scripts/getOs.js";
 import { goToDir } from "./scripts/goToDir.js";
-import { readFile, addFile, rename, copy, remove } from "./scripts/files.js";
+import { read, addFile, rename, copy, remove } from "./scripts/files.js";
 import { getHash } from "./scripts/getHash.js";
 import { zlib } from "./scripts/zlib.js";
 
@@ -49,7 +49,7 @@ const start = async () => {
           await goToDir(details[1].trim());
           break;
         case "cat":
-          await readFile(details[1].trim());
+          await read(details[1].trim());
           break;
         case "add":
           await addFile(details[1].trim());

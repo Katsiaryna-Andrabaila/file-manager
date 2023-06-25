@@ -1,27 +1,28 @@
 import { state } from "../state/state.js";
-import { readFile as read, createReadStream, createWriteStream } from "fs";
+import { createReadStream, createWriteStream } from "fs";
 import { join, resolve, dirname, basename } from "path";
-import { rename as renameMethod, access, unlink, open } from "fs/promises";
+import {
+  readFile,
+  rename as renameMethod,
+  access,
+  unlink,
+  open,
+} from "fs/promises";
 
 const { stdout } = process;
 
-export const readFile = async (pathToFile) => {
+export const read = async (pathToFile) => {
   const dir = state.currentDir;
 
-  read(join(dir, pathToFile), (error, data) => {
-    if (error) {
-      read(pathToFile, (e, data) => (e ? cb(data, true) : cb(data, false)));
-    } else {
-      cb(data, false);
-    }
-  });
-
-  const cb = (output, isError) => {
-    isError
-      ? console.error("Operation failed\n")
-      : console.log("\n" + output + "\n");
-    stdout.write(`You are currently in ${state.currentDir}\n\n> `);
-  };
+  try {
+    const path = resolve(dir, pathToFile);
+    const content = await readFile(path, { encoding: "utf8" });
+    console.log(`\n${content}\n`);
+  } catch {
+    console.error("Operation failed\n");
+  } finally {
+    stdout.write(`You are currently in ${dir}\n\n> `);
+  }
 };
 
 export const addFile = async (fileName) => {
