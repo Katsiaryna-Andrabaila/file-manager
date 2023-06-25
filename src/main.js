@@ -4,7 +4,7 @@ import { state } from "./state/state.js";
 import { goUp } from "./scripts/goUp.js";
 import { getOs } from "./scripts/getOs.js";
 import { goToDir } from "./scripts/goToDir.js";
-import { readFile, addFile, rename, copy } from "./scripts/files.js";
+import { readFile, addFile, rename, copy, remove } from "./scripts/files.js";
 
 const { argv, stdout, stdin } = process;
 const args = argv.slice();
@@ -57,6 +57,9 @@ const start = async () => {
           break;
         case "cp":
           await copy(details[1].trim(), details[2]);
+          break;
+        case "rm":
+          await remove(details[1].trim());
           break;
         case ".exit":
           stdout.write(byePhrase);

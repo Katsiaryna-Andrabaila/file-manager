@@ -1,7 +1,7 @@
 import { state } from "../state/state.js";
 import { readFile as read, createReadStream, createWriteStream } from "fs";
 import { join, resolve, dirname, basename } from "path";
-import { rename as renameMethod, access } from "fs/promises";
+import { rename as renameMethod, access, unlink } from "fs/promises";
 import { open } from "fs/promises";
 
 const { stdout } = process;
@@ -69,6 +69,20 @@ export const copy = async (pathToFile, newPath) => {
     const writable = createWriteStream(newAbsPath);
     readable.pipe(writable);
     stdout.write(`File was successfully copied\n\n`);
+  } catch {
+    console.error("Operation failed\n");
+  } finally {
+    stdout.write(`You are currently in ${dir}\n\n> `);
+  }
+};
+
+export const remove = async (pathToFile) => {
+  const dir = state.currentDir;
+
+  try {
+    const path = resolve(dir, pathToFile);
+    await unlink(path);
+    stdout.write(`File was successfully deleted\n\n`);
   } catch {
     console.error("Operation failed\n");
   } finally {
