@@ -26,7 +26,7 @@ export const getList = async () => {
 
     console.table(array.sort((a, b) => a.Type.localeCompare(b.Type)));
     stdout.write(`You are currently in ${state.currentDir}\n\n> `);
-  } catch (e) {
-    console.error(e);
+  } catch {
+    console.error("Operation failed\n");
   }
 };
