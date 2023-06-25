@@ -55,7 +55,7 @@ export const rename = async (pathToFile, newName) => {
   }
 };
 
-export const copy = async (pathToFile, newPath) => {
+export const copy = async (pathToFile, newPath, isCopy) => {
   const dir = state.currentDir;
 
   try {
@@ -68,7 +68,13 @@ export const copy = async (pathToFile, newPath) => {
     const readable = createReadStream(path);
     const writable = createWriteStream(newAbsPath);
     readable.pipe(writable);
-    stdout.write(`File was successfully copied\n\n`);
+
+    if (isCopy) {
+      stdout.write(`File was successfully copied\n\n`);
+    } else {
+      await unlink(path);
+      stdout.write(`File was successfully moved\n\n`);
+    }
   } catch {
     console.error("Operation failed\n");
   } finally {

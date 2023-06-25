@@ -56,7 +56,10 @@ const start = async () => {
           await rename(details[1].trim(), details[2].trim());
           break;
         case "cp":
-          await copy(details[1].trim(), details[2]);
+          await copy(details[1].trim(), details[2], true);
+          break;
+        case "mv":
+          await copy(details[1].trim(), details[2], false);
           break;
         case "rm":
           await remove(details[1].trim());
