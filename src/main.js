@@ -7,7 +7,7 @@ import { goToDir } from "./operations/goToDir.js";
 import { read, add, rename, copy, remove } from "./operations/files.js";
 import { getHash } from "./operations/getHash.js";
 import { zlib } from "./operations/zlib.js";
-import { COLORS, ERRORS } from "./constants/constants.js";
+import { COLORS, ERRORS, REG_EXP } from "./constants/constants.js";
 import { getByePhrase } from "./utils/getByePhrase.js";
 
 const { argv, stdout, stdin } = process;
@@ -27,10 +27,7 @@ const start = async () => {
 
   stdin.on("data", async (data) => {
     const operation = data.toString().split(" ")[0].trim();
-    const details = data
-      .toString()
-      .split(" ")
-      .filter((el) => el !== "");
+    const details = data.toString().match(REG_EXP);
 
     switch (operation) {
       case "ls":

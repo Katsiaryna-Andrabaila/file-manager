@@ -17,7 +17,7 @@ export const getOs = async (detail) => {
         console.table(
           os.cpus().map((el) => ({
             model: el.model,
-            clock_rate: `${(Math.ceil(el.speed / 10) / 100).toFixed(2)} GHz`,
+            clock_rate: `${(el.speed / 1000).toFixed(2)} GHz`,
           }))
         );
         break;

@@ -7,3 +7,5 @@ export const ERRORS = {
   input: "Invalid input\n",
   operation: "Operation failed\n",
 };
+
+export const REG_EXP = /(?:[^\s"]+|"[^"]*")+/g;

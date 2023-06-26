@@ -1,8 +1,10 @@
 import { createBrotliCompress, createBrotliDecompress } from "zlib";
 import { resolve, join, basename } from "path";
 import { createReadStream, createWriteStream } from "fs";
+import { access } from "fs/promises";
 import { state } from "../state/state.js";
 import { ERRORS, COLORS } from "../constants/constants.js";
+import { getNameWithoutQuotes } from "../utils/getNameWithoutQuotes.js";
 
 const { stdout } = process;
 
@@ -10,8 +12,11 @@ export const zlib = async (pathToFile, pathToDestination, isCompress) => {
   const dir = state.currentDir;
 
   try {
-    const path = resolve(dir, pathToFile.trim());
-    const targetPath = resolve(dir, pathToDestination.trim());
+    const path = resolve(dir, getNameWithoutQuotes(pathToFile));
+    const targetPath = resolve(dir, getNameWithoutQuotes(pathToDestination));
+
+    await access(path);
+    await access(targetPath);
 
     const gzip = isCompress ? createBrotliCompress() : createBrotliDecompress();
     const input = createReadStream(path);
