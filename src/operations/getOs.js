@@ -13,7 +13,13 @@ export const getOs = async (detail) => {
         console.log(COLORS.green, JSON.stringify(os.EOL) + "\n");
         break;
       case "cpus":
-        console.log(COLORS.green, os.cpus());
+        console.log(COLORS.green, `\nOVERALL AMOUNT: ${os.cpus().length}`);
+        console.table(
+          os.cpus().map((el) => ({
+            model: el.model,
+            clock_rate: `${(Math.ceil(el.speed / 10) / 100).toFixed(2)} GHz`,
+          }))
+        );
         break;
       case "homedir":
         console.log(COLORS.green, os.homedir() + "\n");
