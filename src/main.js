@@ -19,7 +19,7 @@ const start = async () => {
     name = args.slice(2)[0].split("=")[1];
   }
 
-  stdout.write(`Welcome to the File Manager, ${name || "Dear Checker"}!\n`);
+  stdout.write(`Welcome to the File Manager, ${name || "User"}!\n`);
 
   const homeDir = homedir();
   state.currentDir = homeDir;
