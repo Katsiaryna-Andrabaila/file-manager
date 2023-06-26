@@ -67,10 +67,10 @@ const start = async () => {
         await getHash(details[1]);
         break;
       case "compress":
-        await zlib(details[1], true);
+        await zlib(details[1], details[2], true);
         break;
       case "decompress":
-        await zlib(details[1], false);
+        await zlib(details[1], details[2], false);
         break;
       case ".exit":
         stdout.write(getByePhrase(name));
