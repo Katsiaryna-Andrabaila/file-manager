@@ -1,13 +1,8 @@
 import { state } from "../state/state.js";
 import { createReadStream, createWriteStream } from "fs";
 import { join, resolve, dirname, basename } from "path";
-import {
-  readFile,
-  rename as renameMethod,
-  access,
-  unlink,
-  open,
-} from "fs/promises";
+import { rename as renameMethod, access, unlink, open } from "fs/promises";
+import os from "os";
 import { COLORS, ERRORS } from "../constants/constants.js";
 
 const { stdout } = process;
@@ -15,13 +10,20 @@ const { stdout } = process;
 export const read = async (pathToFile) => {
   const dir = state.currentDir;
 
-  try {
+  if (pathToFile && pathToFile !== os.EOL) {
     const path = resolve(dir, pathToFile.trim());
-    const content = await readFile(path, { encoding: "utf8" });
-    console.log(COLORS.green, `\n${content}\n`);
-  } catch {
-    console.error(COLORS.red, !pathToFile ? ERRORS.input : ERRORS.operation);
-  } finally {
+    await access(path);
+    const stream = createReadStream(path);
+
+    stream.on("data", (chunk) => {
+      console.log(COLORS.green, `\n${chunk}\n`);
+      stdout.write(`You are currently in ${dir}\n\n> `);
+    });
+  } else {
+    console.error(
+      COLORS.red,
+      !pathToFile || pathToFile === os.EOL ? ERRORS.input : ERRORS.operation
+    );
     stdout.write(`You are currently in ${dir}\n\n> `);
   }
 };

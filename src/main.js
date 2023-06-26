@@ -31,6 +31,12 @@ const start = async () => {
       .toString()
       .split(" ")
       .filter((el) => el !== "");
+    console.log(
+      data
+        .toString()
+        .split(" ")
+        .filter((el) => el !== "")
+    );
 
     switch (operation) {
       case "ls":
