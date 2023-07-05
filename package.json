@@ -1,0 +1,24 @@
+{
+  "name": "file-manager",
+  "version": "1.0.0",
+  "description": "This repository is the part of file-manager https://github.com/Katsiaryna-Andrabaila/file-manager",
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Katsiaryna-Andrabaila/file-manager.git"
+  },
+  "keywords": [
+    "nodejs",
+    "file-manager",
+    "Katsiaryna-Andrabaila"
+  ],
+  "author": "Katsiaryna-Andrabaila",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Katsiaryna-Andrabaila/file-manager/issues"
+  },
+  "homepage": "https://github.com/Katsiaryna-Andrabaila/file-manager#readme"
+}
